@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,14 @@ namespace Managers
     {
         [SerializeField] private GameObject selectButton;
         [SerializeField] private GameObject[] selectedBackgrounds;
-        
+
+        private AudioManager _audioManager;
+
+        private void Start()
+        {
+            _audioManager = FindObjectOfType<AudioManager>();
+        }
+
         public void SelectAvatar(GameObject selectedBackground)
         {
             selectButton.SetActive(true);
@@ -18,6 +26,14 @@ namespace Managers
             selectedBackground.SetActive(true);
         }
 
+        public void PlayMusic(AudioClip clip)
+        {
+            if (clip != null)
+            {
+                _audioManager.PlaySound(clip);
+            }
+            
+        }
         public void Devam()
         {
             selectButton.SetActive(false);
