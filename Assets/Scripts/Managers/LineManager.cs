@@ -10,62 +10,37 @@ namespace Managers
         private List<Vector2> occupiedNodes = new List<Vector2>(); // List to keep track of occupied nodes
         public List<CellScript> pointsList;
         public bool isSaw, isSquare, isSine;
+          
         public void StartLine(Vector3 startPoint)
         {
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, startPoint);
-            lineRendererPointIndex = 1;
+            lineRenderer.SetPosition(1, startPoint);
         }
 
         public void UpdateLineEndPoint(Vector3 endPoint)
         {
-            if (lineRendererPointIndex == 1)
-            {
-                lineRenderer.SetPosition(1, endPoint);
-            }
-            else
-            {
-                Vector3[] positions = new Vector3[lineRendererPointIndex + 2];
-                for (int i = 0; i <= lineRendererPointIndex; i++)
-                {
-                    positions[i] = lineRenderer.GetPosition(i);
-                }
-
-                positions[lineRendererPointIndex + 1] = endPoint;
-
-                lineRenderer.positionCount = lineRendererPointIndex + 2;
-                lineRenderer.SetPositions(positions);
-            }
+            lineRenderer.SetPosition(lineRenderer.positionCount-1, endPoint);
         }
 
-        public void ClearLine()
-        {
-            lineRenderer.positionCount = 0;
-            lineRendererPointIndex = 0;
-            occupiedNodes.Clear(); // Reset the list of occupied nodes
-        }
-
-        public bool HasLines()
-        {
-            return lineRenderer.positionCount > 1;
-        }
         public void AddPoint(Vector3 point)
         {
             int pointIndex = lineRenderer.positionCount;
             lineRenderer.positionCount++;
             lineRenderer.SetPosition(pointIndex, point);
         }
+
         public void AddOccupiedNode(Vector2 node)
         {
             occupiedNodes.Add(node);
         }
 
-
         public bool IsNodeOccupied(Vector2 node)
         {
             return occupiedNodes.Contains(node);
         }
-        
+    
+
         public float GetAmplitude()
         {
             if (pointsList.Count < 2) return 0f;
