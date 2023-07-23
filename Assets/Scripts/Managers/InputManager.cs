@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Managers
@@ -5,8 +6,16 @@ namespace Managers
     public class InputManager : MonoBehaviour
     {
         public LineManager lineManager;
-        public CellScript selectedCell; // Store the reference to the clicked cell
+        public CellScript selectedCell;
+        public CellScript startCell;// Store the reference to the clicked cell
         private bool isLineStarted = false; // Flag to check if a line is currently being drawn
+        private GridManager _gridManager;
+        private void Start()
+        {
+            _gridManager = FindObjectOfType<GridManager>();
+            startCell = _gridManager.transform.GetChild(0).transform.GetComponent<CellScript>();
+            lineManager.pointsList.Add(startCell);
+        }
 
         private void Update()
         {
@@ -26,24 +35,29 @@ namespace Managers
 
         private void HandleMouseClick()
         {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit.collider != null && hit.collider.TryGetComponent(out CellScript cellScript))
-            {
+            // RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            // if (hit.collider != null && hit.collider.TryGetComponent(out CellScript cellScript))
+            // {
                 if (!isLineStarted)
                 {
-                    if (cellScript.GetCell() == Vector2.zero && !lineManager.IsNodeOccupied(cellScript.GetCell()))
-                    {
-                        Debug.Log("Starting new line from the node with CellScript.Vector2Int = (0, 0).");
-                        selectedCell = cellScript; // Store the reference to the clicked cell
-                        lineManager.StartLine(selectedCell.transform.position);
-                        isLineStarted = true;
-                        lineManager.AddOccupiedNode(selectedCell.GetCell());
-                    }
-                    else
-                    {
-                        Debug.Log("Cannot start a new line from this node. Node is occupied.");
-                    }
-                }
+                    selectedCell = startCell; // Store the reference to the clicked cell
+                    lineManager.StartLine(selectedCell.transform.position);
+                    isLineStarted = true;
+                   // lineManager.AddOccupiedNode(selectedCell.GetCell());
+                    
+                    // if (cellScript.GetCell() == Vector2.zero && !lineManager.IsNodeOccupied(cellScript.GetCell()))
+                    // {
+                    //     Debug.Log("Starting new line from the node with CellScript.Vector2Int = (0, 0).");
+                    //     selectedCell = cellScript; // Store the reference to the clicked cell
+                    //     lineManager.StartLine(selectedCell.transform.position);
+                    //     isLineStarted = true;
+                    //     lineManager.AddOccupiedNode(selectedCell.GetCell());
+                    // }
+                    // else
+                    // {
+                    //     Debug.Log("Cannot start a new line from this node. Node is occupied.");
+                    // }
+                //}
             }
         }
 
@@ -58,13 +72,14 @@ namespace Managers
                 if (Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0.1f))
                 {
                     RaycastHit2D snapHit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-                    if (snapHit.collider != null && snapHit.collider.TryGetComponent(out CellScript snapCellScript))
+                    if (snapHit.collider != null && snapHit.collider.TryGetComponent(out CellScript snapCellScript) && snapHit.transform.position.x > lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).x)
                     {
                         // Snap to the node if it's not occupied and add new points
                         if (!snapCellScript.isOccupied)
                         {
                             // Update the last point to the snapped node position and add a new point
                             lineManager.UpdateLineEndPoint(snapCellScript.transform.position);
+                            lineManager.pointsList.Add(snapCellScript);
                             lineManager.AddPoint(mousePosition);
                             lineManager.AddOccupiedNode(snapCellScript.GetCell());
                             snapCellScript.isOccupied = true; // Mark the snapped node as occupied
@@ -83,8 +98,7 @@ namespace Managers
 
         private void HandleMouseRelease()
         {
-            // Reset the line started flag when the mouse is released
-            isLineStarted = false;
+           
         }
     }
 }
