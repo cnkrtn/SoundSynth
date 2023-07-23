@@ -72,18 +72,39 @@ namespace Managers
                 if (Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0.1f))
                 {
                     RaycastHit2D snapHit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-                    if (snapHit.collider != null && snapHit.collider.TryGetComponent(out CellScript snapCellScript) && snapHit.transform.position.x > lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).x)
+                    if (snapHit.collider != null && snapHit.collider.TryGetComponent(out CellScript snapCellScript) && snapHit.transform.position.x >= lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).x)
                     {
-                        // Snap to the node if it's not occupied and add new points
-                        if (!snapCellScript.isOccupied)
+
+                        if (lineManager.isSaw)
                         {
-                            // Update the last point to the snapped node position and add a new point
-                            lineManager.UpdateLineEndPoint(snapCellScript.transform.position);
-                            lineManager.pointsList.Add(snapCellScript);
-                            lineManager.AddPoint(mousePosition);
-                            lineManager.AddOccupiedNode(snapCellScript.GetCell());
-                            snapCellScript.isOccupied = true; // Mark the snapped node as occupied
+                            if (snapHit.transform.position.y != lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).y &&
+                                snapHit.transform.position.x != lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).x)
+                                // Snap to the node if it's not occupied and add new points
+                                if (!snapCellScript.isOccupied)
+                                {
+                                    // Update the last point to the snapped node position and add a new point
+                                    lineManager.UpdateLineEndPoint(snapCellScript.transform.position);
+                                    lineManager.pointsList.Add(snapCellScript);
+                                    lineManager.AddPoint(mousePosition);
+                                    lineManager.AddOccupiedNode(snapCellScript.GetCell());
+                                    snapCellScript.isOccupied = true; // Mark the snapped node as occupied
+                                }
+                        }else if (lineManager.isSquare)
+                        {
+                            if (snapHit.transform.position.y == lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).y || 
+                                snapHit.transform.position.x == lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).x)
+                                // Snap to the node if it's not occupied and add new points
+                                if (!snapCellScript.isOccupied)
+                                {
+                                    // Update the last point to the snapped node position and add a new point
+                                    lineManager.UpdateLineEndPoint(snapCellScript.transform.position);
+                                    lineManager.pointsList.Add(snapCellScript);
+                                    lineManager.AddPoint(mousePosition);
+                                    lineManager.AddOccupiedNode(snapCellScript.GetCell());
+                                    snapCellScript.isOccupied = true; // Mark the snapped node as occupied
+                                }
                         }
+                       
                     }
                 }
                 else

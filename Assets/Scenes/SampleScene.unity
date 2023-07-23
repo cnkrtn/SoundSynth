@@ -20595,6 +20595,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 914538810}
+  pointsList: []
+  isSaw: 0
+  isSquare: 1
+  isSine: 0
 --- !u!1 &916268375
 GameObject:
   m_ObjectHideFlags: 0
@@ -35048,6 +35052,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineManager: {fileID: 914538811}
+  selectedCell: {fileID: 0}
+  startCell: {fileID: 0}
 --- !u!1 &1463177191
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ namespace Managers
         public LineRenderer lineRenderer;
         private List<Vector2> occupiedNodes = new List<Vector2>(); // List to keep track of occupied nodes
         public List<CellScript> pointsList;
+        public bool isSaw, isSquare, isSine;
         
         
         public void StartLine(Vector3 startPoint)
