@@ -20595,6 +20595,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 914538810}
+<<<<<<< Updated upstream
+=======
+  pointsList: []
+  isSaw: 1
+  isSquare: 0
+  isSine: 0
+>>>>>>> Stashed changes
 --- !u!1 &916268375
 GameObject:
   m_ObjectHideFlags: 0
