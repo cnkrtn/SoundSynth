@@ -7,8 +7,10 @@ namespace Managers
         public LineManager lineManager;
         public CellScript selectedCell;
         public CellScript startCell;// Store the reference to the clicked cell
-        public bool isLineStarted = false, isLineFinished=false; // Flag to check if a line is currently being drawn
+        public bool isLineStarted = false, isLineFinished=false;
+        public bool canInput = true;
         private GridManager _gridManager;
+        public Camera cam;
         private void Start()
         {
             _gridManager = FindObjectOfType<GridManager>();
@@ -18,23 +20,20 @@ namespace Managers
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && canInput)
             {
                 HandleMouseClick();
             }
-            else if (Input.GetMouseButton(0))
+            else if (Input.GetMouseButton(0) && canInput)
             {
                 HandleMouseHold();
             }
-            else if (Input.GetMouseButtonUp(0))
-            {
-               
-            }
+            
         }
 
         private void HandleMouseClick()
         {
-             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+             RaycastHit2D hit = Physics2D.Raycast(cam.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
              if (hit.collider != null && hit.collider.TryGetComponent(out CellScript cellScript))
              {
                  if (!isLineStarted)
@@ -65,13 +64,13 @@ namespace Managers
         {
             if (selectedCell != null && isLineStarted )
             {
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
                 mousePosition.z = 0f;
 
                 // Check if the mouse is hovering over a node (occupied or unoccupied)
-                if (Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0.1f))
+                if (Physics2D.Raycast(cam.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0.1f))
                 {
-                    RaycastHit2D snapHit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+                    RaycastHit2D snapHit = Physics2D.Raycast(cam.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
                     if (snapHit.collider != null && snapHit.collider.TryGetComponent(out CellScript snapCellScript) && snapHit.transform.position.x >= lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).x)
                     {
 

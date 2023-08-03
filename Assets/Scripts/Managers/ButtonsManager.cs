@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Managers
@@ -7,7 +8,9 @@ namespace Managers
     public class ButtonsManager : MonoBehaviour
     {
         [SerializeField] private GameObject selectButton;
-        [SerializeField] private GameObject[] selectedBackgrounds;
+        [SerializeField] private Sprite[] selectedSprites;
+        [SerializeField] private Sprite[] originalSprites;
+        [SerializeField] private Button[] buttons;
 
         private AudioManager _audioManager;
         private LineManager _lineManager;
@@ -23,14 +26,16 @@ namespace Managers
 
         }
 
-        public void SelectAvatar(GameObject selectedBackground)
+        public void SelectAvatar(int  index)
         {
-            selectButton.SetActive(true);
-            foreach (var background in selectedBackgrounds)
+            for (var i = 0; i < buttons.Length; i++)
             {
-                background.SetActive(false);
+                
+                buttons[i].image.sprite = originalSprites[i];
             }
-            selectedBackground.SetActive(true);
+
+            buttons[index].image.sprite = selectedSprites[index];
+            selectButton.SetActive(true);
         }
 
         public void ChangeGraphBool(int index)
@@ -65,14 +70,14 @@ namespace Managers
         // }
         public void Continue()
         {
-            selectButton.SetActive(false);
-            foreach (var background in selectedBackgrounds)
+            foreach (var button in buttons)
             {
-                background.transform.parent.gameObject.SetActive(false);
+                button.gameObject.SetActive(false);
             }
+           
             phaseTwoManagers.SetActive(true);
             phaseTwoUI.SetActive(true);
-
+            
             SelectMovingObject();
         }
 
@@ -89,7 +94,7 @@ namespace Managers
             }
             else if(_lineManager.isSine){_movementManager.selectedMovingObject = _movementManager.movingObjects[1];}
             else{_movementManager.selectedMovingObject = _movementManager.movingObjects[2];}
-            _movementManager.selectedMovingObject.SetActive(true);
+           // _movementManager.selectedMovingObject.SetActive(true);
         }
     }
 }

@@ -31,6 +31,7 @@ namespace Managers
             {
                 selectedMovingObject.transform.position =
                     linePositions[0]; // Set the GameObject to the start position of the line
+                selectedMovingObject.SetActive(true);
             }
         }
 

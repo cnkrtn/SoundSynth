@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Managers
 {
@@ -10,7 +12,21 @@ namespace Managers
       private InputManager _inputManager;
       private AudioManager _audioManager;
       private MovementManager _movementManager;
+      private MoveBackgrounds _moveBackgrounds;
+      private MoveCave _moveCave;
       public GameObject restartButton, playButton;
+      public Slider cutSlider, reverbSlider;
+
+      private void OnEnable()
+      {
+         _moveBackgrounds = FindObjectOfType<MoveBackgrounds>();
+         _moveCave = FindObjectOfType<MoveCave>();
+         cutSlider.onValueChanged.AddListener(_moveBackgrounds.RotateBackgroundParent);
+         cutSlider.onValueChanged.AddListener(_moveBackgrounds.ChangeTiling);
+         cutSlider.onValueChanged.AddListener(_moveBackgrounds.MoveBackgroundPosition);
+         reverbSlider.onValueChanged.AddListener((_moveCave.MoveObjectsPosition));
+         _moveBackgrounds.MoveBackgroundPosition(cutSlider.value);
+      }
 
       private void Start()
       {
@@ -18,6 +34,7 @@ namespace Managers
          _inputManager = FindObjectOfType<InputManager>();
          _audioManager = FindObjectOfType<AudioManager>();
          _movementManager = FindObjectOfType<MovementManager>();
+       
       }
 
       private void Update()
@@ -30,6 +47,7 @@ namespace Managers
             playButton.SetActive(true);
          }
          
+         
       }
 
       public void PlayButton()
@@ -39,6 +57,7 @@ namespace Managers
          _lineManager.lineRenderer.positionCount -= 1;
          _movementManager.GetWaypoints();
          _movementManager.canMove = true;
+         _inputManager.canInput = false;
       }
 
       public void RestartButton()
@@ -57,6 +76,10 @@ namespace Managers
          
          
          _inputManager.isLineStarted = false;
+         _movementManager.canMove = false;
+         _inputManager.canInput = true;
+         _movementManager.selectedMovingObject.SetActive(false);
+         
       }
    }
 }
