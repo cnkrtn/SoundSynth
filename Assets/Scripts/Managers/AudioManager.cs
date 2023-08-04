@@ -6,89 +6,66 @@ namespace Managers
 {
     public class AudioManager : MonoBehaviour
     {
-        public AudioClip whaleSound; // The original whale sound clip
-        public float pitchMultiplier = 1.0f; // Initial pitch multiplier
-
-        public List<Vector2Int> noteTimings; // List of note timings (bar, note)
-        private List<AudioSource> activeSources = new List<AudioSource>();
-
-        // Array to hold the pitches for the E minor scale
-        private float[] eMinorScalePitches = { 82.41f, 92.50f, 98.00f, 110.00f, 123.47f, 130.81f};
-
-    
+        public List<AudioClip> selectedSounds; 
+        public List<AudioSource> selectedSources; 
         private LineManager _lineManager;
 
         private void Start()
         {
             _lineManager = FindObjectOfType<LineManager>();
-            // PlayWhaleSound(noteTimings);
+            
         }
-        // Call this method to start playing the whale sound
-        // public void PlayWhaleSound(List<Vector2Int> noteTimings)
-        // {
-        //     this.noteTimings = noteTimings;
-        //     StartCoroutine(PlayNotes());
-        // }
 
-        // Coroutine to play the notes at the specified timings
-        private IEnumerator PlayNotes()
+        public IEnumerator PlaySound()
         {
-            float startTime = Time.time;
+            var cellList = _lineManager.pointsList;
+            List<CellScript> consecutiveCells = new List<CellScript>();
 
-            // Clear previous active audio sources
-            foreach (AudioSource source in activeSources)
+            for (var i = 0; i < cellList.Count; i++)
             {
-                Destroy(source.gameObject);
+                var cell = cellList[i].GetComponent<CellScript>();
+                var column = cell.col;
+                var row = cell.row;
+
+                consecutiveCells.Clear();
+                consecutiveCells.Add(cell);
+
+                GetConsecutiveColumns(i, cellList, column, consecutiveCells);
+
+                if (consecutiveCells.Count > 1)
+                {
+                    foreach (var cellScript in consecutiveCells)
+                    {
+                        selectedSources[cellScript.row].PlayOneShot(selectedSounds[cellScript.row]);
+                    }
+                    
+                    i += consecutiveCells.Count - 1;
+                }
+                else
+                {
+                    selectedSources[cell.row].PlayOneShot(selectedSounds[cell.row]);
+                }
+
+                yield return new WaitForSeconds(0.7f);
             }
-            activeSources.Clear();
-
-            // Play each note at its specified timing
-            foreach (Vector2Int noteTiming in noteTimings)
-            {
-                int bar = noteTiming.x;
-                int note = noteTiming.y;
-
-                float targetPitch = CalculatePitchForNoteIndex(note);
-                float pitch = targetPitch * pitchMultiplier;
-
-                float duration = 1.0f; // Each note will play for 1 second (you can adjust this duration as needed)
-
-                // Create a new GameObject and AudioSource for the current note
-                GameObject noteObject = new GameObject("Note");
-                noteObject.transform.SetParent(transform);
-                AudioSource noteSource = noteObject.AddComponent<AudioSource>();
-                activeSources.Add(noteSource);
-
-                noteSource.clip = whaleSound;
-                noteSource.pitch = pitch;
-                noteSource.PlayScheduled(AudioSettings.dspTime + (bar * 1.0f)); // Schedule the playback at the specified time
-
-                // Destroy the AudioSource after the duration to stop the note
-                Destroy(noteObject, duration);
-            }
-
-            // Wait for all notes to finish playing
-            yield return new WaitForSeconds(noteTimings[noteTimings.Count - 1].x + 1.0f - (Time.time - startTime));
         }
 
-        // Calculate the target pitch based on the current note index
-        private float CalculatePitchForNoteIndex(int noteIndex)
+        private static void GetConsecutiveColumns(int i, List<CellScript> cellList, int column, List<CellScript> consecutiveCells)
         {
-            // Make sure the noteIndex is within the valid range
-            noteIndex = Mathf.Clamp(noteIndex, 0, eMinorScalePitches.Length - 1);
-
-            // Return the corresponding pitch for the given note index
-            return eMinorScalePitches[noteIndex];
-        }
-    
-        public void NoteTimingsCalculator()
-        {
-            for (var i = 0; i < _lineManager.pointsList.Count; i++)
+            // Check the cells after the current cell
+            for (var j = i + 1; j < cellList.Count; j++)
             {
-                Vector2Int time;
-                time= Vector2Int.RoundToInt(_lineManager.pointsList[i].GetCell());
-                
-                noteTimings.Add(time);
+                var nextCell = cellList[j].GetComponent<CellScript>();
+
+                // If the column of the next cell matches the current cell's column, add it to the consecutive list
+                if (nextCell.col == column)
+                {
+                    consecutiveCells.Add(nextCell);
+                }
+                else
+                {
+                    break; // Stop checking consecutive cells as soon as we find a different column
+                }
             }
         }
     }

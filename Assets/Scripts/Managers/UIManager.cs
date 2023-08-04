@@ -52,8 +52,8 @@ namespace Managers
 
       public void PlayButton()
       {
-         _audioManager.NoteTimingsCalculator();
-         //_audioManager.PlayWhaleSound(_audioManager.noteTimings);
+
+         StartCoroutine(_audioManager.PlaySound());
          _lineManager.lineRenderer.positionCount -= 1;
          _movementManager.GetWaypoints();
          _movementManager.canMove = true;
