@@ -45,7 +45,7 @@ namespace Managers
                     
                      if (cellScript.GetColumn() == 0)
                      {
-                         Debug.Log("Starting new line from the node with CellScript.Vector2Int = (0, 0).");
+                         // Debug.Log("Starting new line from the node with CellScript.Vector2Int = (0, 0).");
                          selectedCell = cellScript; // Store the reference to the clicked cell
                          lineManager.StartLine(selectedCell.transform.position);
                          isLineStarted = true;
@@ -76,8 +76,7 @@ namespace Managers
 
                         // if (lineManager.isSaw)
                         {
-                            // if (snapHit.transform.position.y != lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).y &&
-                            //     snapHit.transform.position.x != lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).x)
+                            if (snapHit.transform.position.x != lineManager.lineRenderer.GetPosition(lineManager.lineRenderer.positionCount - 2).x)
                                 // Snap to the node if it's not occupied and add new points
                                 if (!snapCellScript.isOccupied)
                                 {

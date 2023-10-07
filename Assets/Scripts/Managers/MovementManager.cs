@@ -13,6 +13,7 @@ namespace Managers
         private Vector3[] linePositions;
         private int currentLineIndex = 0;
         private float t = 0f;
+        public float audioTime;
 
         void Start()
         {
@@ -48,6 +49,8 @@ namespace Managers
             {
                 Vector2 currentTarget = linePositions[currentLineIndex];
                 Vector2 nextTarget = linePositions[currentLineIndex + 1];
+                float distance = Vector2.Distance(currentTarget, nextTarget);
+                audioTime = distance / speed;
 
                 t += Time.deltaTime * speed / Vector2.Distance(currentTarget, nextTarget);
 

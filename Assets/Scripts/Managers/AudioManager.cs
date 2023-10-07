@@ -9,44 +9,50 @@ namespace Managers
         public List<AudioClip> selectedSounds; 
         public List<AudioSource> selectedSources; 
         private LineManager _lineManager;
+        private MovementManager _movementManager;
 
         private void Start()
         {
             _lineManager = FindObjectOfType<LineManager>();
-            
+            _movementManager = FindObjectOfType<MovementManager>();
+
         }
 
         public IEnumerator PlaySound()
         {
             var cellList = _lineManager.pointsList;
             List<CellScript> consecutiveCells = new List<CellScript>();
-
-            for (var i = 0; i < cellList.Count; i++)
+            while (true)
             {
-                var cell = cellList[i].GetComponent<CellScript>();
-                var column = cell.col;
-                var row = cell.row;
 
-                consecutiveCells.Clear();
-                consecutiveCells.Add(cell);
 
-                GetConsecutiveColumns(i, cellList, column, consecutiveCells);
-
-                if (consecutiveCells.Count > 1)
+                for (var i = 0; i < cellList.Count; i++)
                 {
-                    foreach (var cellScript in consecutiveCells)
+                    var cell = cellList[i].GetComponent<CellScript>();
+                    var column = cell.col;
+                    var row = cell.row;
+
+                    consecutiveCells.Clear();
+                    consecutiveCells.Add(cell);
+
+                    GetConsecutiveColumns(i, cellList, column, consecutiveCells);
+
+                    if (consecutiveCells.Count > 1)
                     {
-                        selectedSources[cellScript.row].PlayOneShot(selectedSounds[cellScript.row]);
-                    }
-                    
-                    i += consecutiveCells.Count - 1;
-                }
-                else
-                {
-                    selectedSources[cell.row].PlayOneShot(selectedSounds[cell.row]);
-                }
+                        foreach (var cellScript in consecutiveCells)
+                        {
+                            selectedSources[cellScript.row].PlayOneShot(selectedSounds[cellScript.row]);
+                        }
 
-                yield return new WaitForSeconds(0.7f);
+                        i += consecutiveCells.Count - 1;
+                    }
+                    else
+                    {
+                        selectedSources[cell.row].PlayOneShot(selectedSounds[cell.row]);
+                    }
+
+                    yield return new WaitForSeconds(_movementManager.audioTime);
+                }
             }
         }
 

@@ -22,8 +22,6 @@ namespace Managers
             _audioManager = FindObjectOfType<AudioManager>();
             _lineManager = FindObjectOfType<LineManager>();
             
-
-
         }
 
         public void SelectAvatar(int  index)
