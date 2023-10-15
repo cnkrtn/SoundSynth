@@ -7,19 +7,24 @@ namespace Managers
     {
         public List<GameObject> movingObjects;
         public GameObject selectedMovingObject;
+        [SerializeField] private Transform startPosition;
         private LineManager _lineManager;
-        public float speed = 2.0f;
-        public bool canMove=false;
+
+        // Expose timeBetweenWaypoints as a slider in the Unity Inspector.
+        [Range(0.1f, 10.0f)] public float timeBetweenWaypoints = 1.0f;
+
+        public bool canMove = false;
         private Vector3[] linePositions;
         private int currentLineIndex = 0;
         private float t = 0f;
-        public float audioTime;
+        private float distanceCovered = 0f;
 
         void Start()
         {
             _lineManager = FindObjectOfType<LineManager>();
-            // Get the positions of the points from the LineRenderer
-           // GetWaypoints();
+            //GetWaypoints();
+            //selectedMovingObject.transform.position = startPosition.position;
+            selectedMovingObject.SetActive(true);
         }
 
         public void GetWaypoints()
@@ -27,32 +32,43 @@ namespace Managers
             linePositions = new Vector3[_lineManager.lineRenderer.positionCount];
             _lineManager.lineRenderer.GetPositions(linePositions);
 
-            // Make sure there are points in the line
+            // Make sure there are points in the line.
             if (linePositions.Length > 0)
             {
-                selectedMovingObject.transform.position =
-                    linePositions[0]; // Set the GameObject to the start position of the line
+                selectedMovingObject.transform.position = linePositions[0];
                 selectedMovingObject.SetActive(true);
             }
         }
 
         void Update()
         {
-            if(canMove)
+            if (canMove)
                 Move();
         }
 
         private void Move()
         {
-            // Make the GameObject move along the line
+            // Make the GameObject move along the line.
             if (linePositions.Length > 1)
             {
                 Vector2 currentTarget = linePositions[currentLineIndex];
                 Vector2 nextTarget = linePositions[currentLineIndex + 1];
-                float distance = Vector2.Distance(currentTarget, nextTarget);
-                audioTime = distance / speed;
 
-                t += Time.deltaTime * speed / Vector2.Distance(currentTarget, nextTarget);
+                // Calculate the row and column differences between the current and next waypoints.
+                int currentRow = _lineManager.pointsList[currentLineIndex].row;
+                int currentCol = _lineManager.pointsList[currentLineIndex].col;
+                int nextRow = _lineManager.pointsList[currentLineIndex + 1].row;
+                int nextCol = _lineManager.pointsList[currentLineIndex + 1].col;
+                int rowDifference = Mathf.Abs(nextRow - currentRow);
+                int colDifference = Mathf.Abs(nextCol - currentCol);
+
+                // Calculate the time based on row and column differences and timeBetweenWaypoints.
+                float time = timeBetweenWaypoints * Mathf.Max(rowDifference, colDifference);
+
+                float distance = Vector2.Distance(currentTarget, nextTarget);
+                float speed = distance / time;
+
+                t += Time.deltaTime * speed / distance;
 
                 selectedMovingObject.transform.position = Vector2.Lerp(currentTarget, nextTarget, t);
 
@@ -70,5 +86,6 @@ namespace Managers
                 }
             }
         }
+
     }
 }

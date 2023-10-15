@@ -7,7 +7,7 @@ namespace Managers
 {
     public class ButtonsManager : MonoBehaviour
     {
-        [SerializeField] private GameObject selectButton;
+        [SerializeField] private GameObject selectButton,titleScreen;
         [SerializeField] private Sprite[] selectedSprites;
         [SerializeField] private Sprite[] originalSprites;
         [SerializeField] private Button[] buttons;
@@ -15,20 +15,20 @@ namespace Managers
         private AudioManager _audioManager;
         private LineManager _lineManager;
         private MovementManager _movementManager;
-        public GameObject phaseTwoManagers,phaseTwoUI;
+        public GameObject phaseTwoManagers, phaseTwoUI;
 
         private void Start()
         {
-            _audioManager = FindObjectOfType<AudioManager>();
-            _lineManager = FindObjectOfType<LineManager>();
             
+            _lineManager = FindObjectOfType<LineManager>();
+
         }
 
-        public void SelectAvatar(int  index)
+        public void SelectAvatar(int index)
         {
             for (var i = 0; i < buttons.Length; i++)
             {
-                
+
                 buttons[i].image.sprite = originalSprites[i];
             }
 
@@ -72,27 +72,46 @@ namespace Managers
             {
                 button.gameObject.SetActive(false);
             }
-           
+
             phaseTwoManagers.SetActive(true);
             phaseTwoUI.SetActive(true);
-            
+
             SelectMovingObject();
+            titleScreen.SetActive(false);
+            
         }
 
         private void SelectMovingObject()
         {
             _movementManager = FindObjectOfType<MovementManager>();
+            _audioManager = FindObjectOfType<AudioManager>();
             foreach (var movementManagerMovingObject in _movementManager.movingObjects)
             {
                 movementManagerMovingObject.SetActive(false);
             }
-            if(_lineManager.isSaw)
+
+            // Clear the selectedSounds list
+            _audioManager.selectedSounds.Clear();
+
+            if (_lineManager.isSaw)
             {
                 _movementManager.selectedMovingObject = _movementManager.movingObjects[0];
+                _audioManager.selectedSounds.AddRange(_audioManager
+                    .fishSounds); // Use AddRange to add all sounds at once
             }
-            else if(_lineManager.isSine){_movementManager.selectedMovingObject = _movementManager.movingObjects[1];}
-            else{_movementManager.selectedMovingObject = _movementManager.movingObjects[2];}
-           // _movementManager.selectedMovingObject.SetActive(true);
+            else if (_lineManager.isSine)
+            {
+                _movementManager.selectedMovingObject = _movementManager.movingObjects[1];
+                _audioManager.selectedSounds.AddRange(_audioManager.dolphinSounds);
+            }
+            else
+            {
+                _movementManager.selectedMovingObject = _movementManager.movingObjects[2];
+                _audioManager.selectedSounds.AddRange(_audioManager.whaleSounds);
+            }
+
+            // Now you have the selectedSounds list populated based on the boolean conditions
+            // _movementManager.selectedMovingObject.SetActive(true);
         }
     }
 }

@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class MoveBackgrounds : MonoBehaviour
 {
-    public List<Material> backgrounds;
+    public List<Renderer> backgrounds;
     private UIManager _uiManager;
-    public float minRotationAngle = -5f;
-    public float maxRotationAngle = 5f;
+    // public float minRotationAngle = -5f;
+    // public float maxRotationAngle = 5f;
     public float minScale = 0.6f;
     public float maxScale = 1.6f;
     public float minYPosition = 0.8f;
@@ -33,8 +33,8 @@ public class MoveBackgrounds : MonoBehaviour
             Vector2 textureOffset = new Vector2(1f, 0f);
             Vector2 textureScale = new Vector2(1f, 1f);
 
-            background.SetTextureOffset("_MainTex", textureOffset);
-            background.SetTextureScale("_MainTex", textureScale);
+            background.material.SetTextureOffset("_MainTex", textureOffset);
+            background.material.SetTextureScale("_MainTex", textureScale);
         }
         
         
@@ -52,20 +52,20 @@ public class MoveBackgrounds : MonoBehaviour
         for (var index = 0; index < backgrounds.Count; index++)
         {
             var background = backgrounds[index];
-            var offset = Time.time * 0.01f * (index + 0.00001f);
+            var offset = Time.time * 0.01f * (index + 1f);
             var textureOffset = new Vector2(offset, 0);
-            background.SetTextureOffset("_MainTex", textureOffset);
+            background.material.SetTextureOffset("_MainTex", textureOffset);
             
         }
     }
 
-    public void RotateBackgroundParent(float sliderValue)
-    {
-        var targetRotation = Mathf.Lerp(minRotationAngle, maxRotationAngle, sliderValue);
-        transform.rotation = Quaternion.Euler(0f, 0f, targetRotation);
-        
-       
-    }
+    // public void RotateBackgroundParent(float sliderValue)
+    // {
+    //     var targetRotation = Mathf.Lerp(minRotationAngle, maxRotationAngle, sliderValue);
+    //     transform.rotation = Quaternion.Euler(0f, 0f, targetRotation);
+    //     
+    //    
+    // }
     
     private float MapSliderValueToYPosition(float sliderValue)
     {
@@ -108,7 +108,7 @@ public class MoveBackgrounds : MonoBehaviour
         {
             var background = backgrounds[index];
             Vector2 textureScale = new Vector2(scale, 1); // Use the same scale for both X and Y axis
-            background.SetTextureScale("_MainTex", textureScale);
+            background.material.SetTextureScale("_MainTex", textureScale);
         }
     }
 

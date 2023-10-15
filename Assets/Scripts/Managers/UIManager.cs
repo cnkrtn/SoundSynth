@@ -21,10 +21,17 @@ namespace Managers
       {
          _moveBackgrounds = FindObjectOfType<MoveBackgrounds>();
          _moveCave = FindObjectOfType<MoveCave>();
-         cutSlider.onValueChanged.AddListener(_moveBackgrounds.RotateBackgroundParent);
+         _audioManager = FindObjectOfType<AudioManager>();
+
+         // cutSlider.onValueChanged.AddListener(_moveBackgrounds.RotateBackgroundParent);
          cutSlider.onValueChanged.AddListener(_moveBackgrounds.ChangeTiling);
          cutSlider.onValueChanged.AddListener(_moveBackgrounds.MoveBackgroundPosition);
+         cutSlider.onValueChanged.AddListener(UpdateCutFiltersHigh);
+         cutSlider.onValueChanged.AddListener(UpdateCutFiltersLow);
+         reverbSlider.onValueChanged.AddListener(UpdateReverbFilter);
          reverbSlider.onValueChanged.AddListener((_moveCave.MoveObjectsPosition));
+         // UpdateCutFilters(cutSlider.value);
+         // UpdateReverbFilter(reverbSlider.value);
          _moveBackgrounds.MoveBackgroundPosition(cutSlider.value);
       }
 
@@ -32,9 +39,9 @@ namespace Managers
       {
          _lineManager = FindObjectOfType<LineManager>();
          _inputManager = FindObjectOfType<InputManager>();
-         _audioManager = FindObjectOfType<AudioManager>();
+
          _movementManager = FindObjectOfType<MovementManager>();
-       
+
       }
 
       private void Update()
@@ -42,18 +49,21 @@ namespace Managers
          if (_lineManager.pointsList.Count <= 1) return;
          restartButton.SetActive(true);
 
-         foreach (var col in _lineManager.pointsList.Select(cellScript => cellScript.GetColumn()).Where(col => col == 15))
+         foreach (var col in _lineManager.pointsList.Select(cellScript => cellScript.GetColumn())
+                     .Where(col => col == 15))
          {
             playButton.SetActive(true);
          }
-         
-         
+
+
       }
 
       public void PlayButton()
       {
 
          StartCoroutine(_audioManager.PlaySound());
+         _audioManager.musicSource.Stop();
+         _audioManager.musicSource.Play();
          _lineManager.lineRenderer.positionCount -= 1;
          _movementManager.GetWaypoints();
          _movementManager.canMove = true;
@@ -66,20 +76,61 @@ namespace Managers
          {
             cellScript.isOccupied = false;
          }
+
          _lineManager.pointsList.Clear();
          for (int i = 0; i < _lineManager.lineRenderer.positionCount; i++)
          {
-            _lineManager.lineRenderer.SetPosition(i,Vector2.zero);
+            _lineManager.lineRenderer.SetPosition(i, Vector2.zero);
             restartButton.SetActive(false);
-            
+
          }
-         
-         
+
+
          _inputManager.isLineStarted = false;
          _movementManager.canMove = false;
          _inputManager.canInput = true;
          _movementManager.selectedMovingObject.SetActive(false);
-         
+
+      }
+
+
+      private void UpdateCutFiltersHigh(float sliderValue)
+      {
+         if (!(sliderValue <= .5f)) return;
+         // Calculate HighPass filter value based on slider position (0-50)
+         float highPassValue = Mathf.Lerp(1000f, 10f, sliderValue / .5f);
+
+         // Set HighPass filter value
+         _audioManager.highPassFilter.cutoffFrequency = highPassValue;
+
+      }
+      
+      private void UpdateCutFiltersLow(float sliderValue)
+      {
+         if (!(sliderValue >= .5f)) return;
+         // Calculate LowPass filter value based on slider position (50-100)
+         float lowPassValue = Mathf.Lerp(22000f, 2000, (sliderValue - .5f) / .5f);
+
+         // Set LowPass filter value
+         _audioManager.lowPassFilter.cutoffFrequency = lowPassValue;
+
+      }
+
+      
+
+        
+      
+
+
+      // Method to update the Reverb filter
+      private void UpdateReverbFilter(float sliderValue)
+      {
+         // Calculate reverb filter value based on slider position
+         float reverbValue = Mathf.Lerp(-2000f, 200f,
+            (sliderValue - reverbSlider.minValue) / (reverbSlider.maxValue - reverbSlider.minValue));
+
+         // Set reverb filter value
+         _audioManager.reverbFilter.reverbLevel = reverbValue;
       }
    }
 }
