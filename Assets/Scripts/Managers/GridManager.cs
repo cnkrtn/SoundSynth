@@ -6,8 +6,8 @@ namespace Managers
     {
         public int rows = 6;
         public int columns = 16;
-        public float cellWidth = 1f; // Separate width and height variables for non-square cells
-        public float cellHeight = 1f;
+        public float cellWidth = .5f; // Separate width and height variables for non-square cells
+        public float cellHeight = .5f;
         public GameObject cellPrefab;
         private Transform gridObject;
    
@@ -48,8 +48,9 @@ namespace Managers
                   
                 }
             }
-           
-        
+
+            transform.localScale = Vector3.one * .9f;
+
         }
     }
 }

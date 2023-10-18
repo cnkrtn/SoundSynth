@@ -10,10 +10,12 @@ namespace Managers
         public bool isLineStarted = false, isLineFinished=false;
         public bool canInput = true;
         private GridManager _gridManager;
+        private AudioManager _audioManager;
         public Camera cam;
         private void Start()
         {
             _gridManager = FindObjectOfType<GridManager>();
+            _audioManager = FindObjectOfType<AudioManager>();
             // startCell = _gridManager.transform.GetChild(0).transform.GetComponent<CellScript>();
             // lineManager.pointsList.Add(startCell);
         }
@@ -30,6 +32,43 @@ namespace Managers
             }
             
         }
+        
+        // private void Update()
+        // {
+        //     if (Input.touchCount > 0 && canInput)
+        //     {
+        //         if (Input.GetTouch(0).phase == TouchPhase.Began)
+        //         {
+        //             HandleTouchBegin();
+        //             
+        //         }
+        //         else if (Input.GetTouch(0).phase == TouchPhase.Moved)
+        //         {
+        //             HandleTouchMove();
+        //         }
+        //         else if (Input.GetTouch(0).phase == TouchPhase.Ended)
+        //         {
+        //             HandleTouchEnd();
+        //         }
+        //     }
+        // }
+
+        private void HandleTouchBegin()
+        {
+            HandleMouseClick();
+            _audioManager.selectedSources[1].PlayOneShot(_audioManager.selectedSounds[1]);
+        }
+
+        private void HandleTouchMove()
+        {
+            HandleMouseHold();
+        }
+
+        private void HandleTouchEnd()
+        {
+            // Your code for touch input ending (e.g., touch release)
+        }
+
 
         private void HandleMouseClick()
         {
@@ -38,6 +77,7 @@ namespace Managers
              {
                  if (!isLineStarted)
                  {
+                     Debug.Log("OLUYOrrrrr");
                      // selectedCell = startCell; // Store the reference to the clicked cell
                      // lineManager.StartLine(selectedCell.transform.position);
                      // isLineStarted = true;
