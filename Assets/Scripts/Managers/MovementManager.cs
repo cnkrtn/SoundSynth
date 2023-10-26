@@ -9,22 +9,19 @@ namespace Managers
         public GameObject selectedMovingObject;
         [SerializeField] private Transform startPosition;
         private LineManager _lineManager;
+        private AudioManager _audioManager;
 
-        // Expose timeBetweenWaypoints as a slider in the Unity Inspector.
         [Range(0.1f, 10.0f)] public float timeBetweenWaypoints = 1.0f;
-
         public bool canMove = false;
         private Vector3[] linePositions;
         private int currentLineIndex = 0;
         private float t = 0f;
-        private float distanceCovered = 0f;
 
         void Start()
         {
             _lineManager = FindObjectOfType<LineManager>();
-            //GetWaypoints();
-            //selectedMovingObject.transform.position = startPosition.position;
-            selectedMovingObject.SetActive(true);
+            _audioManager = FindObjectOfType<AudioManager>();
+            GetWaypoints();
         }
 
         public void GetWaypoints()
@@ -32,7 +29,6 @@ namespace Managers
             linePositions = new Vector3[_lineManager.lineRenderer.positionCount];
             _lineManager.lineRenderer.GetPositions(linePositions);
 
-            // Make sure there are points in the line.
             if (linePositions.Length > 0)
             {
                 selectedMovingObject.transform.position = linePositions[0];
@@ -48,37 +44,35 @@ namespace Managers
 
         private void Move()
         {
-            // Make the GameObject move along the line.
             if (linePositions.Length > 1)
             {
                 Vector2 currentTarget = linePositions[currentLineIndex];
                 Vector2 nextTarget = linePositions[currentLineIndex + 1];
 
-                // Calculate the row and column differences between the current and next waypoints.
                 int currentRow = _lineManager.pointsList[currentLineIndex].row;
                 int currentCol = _lineManager.pointsList[currentLineIndex].col;
                 int nextRow = _lineManager.pointsList[currentLineIndex + 1].row;
                 int nextCol = _lineManager.pointsList[currentLineIndex + 1].col;
+
+                // Calculate row and column differences
                 int rowDifference = Mathf.Abs(nextRow - currentRow);
                 int colDifference = Mathf.Abs(nextCol - currentCol);
 
-                // Calculate the time based on row and column differences and timeBetweenWaypoints.
-                float time = timeBetweenWaypoints * Mathf.Max(rowDifference, colDifference);
-
+                // Calculate time based on the square root formula
                 float distance = Vector2.Distance(currentTarget, nextTarget);
+                float time = timeBetweenWaypoints * Mathf.Sqrt(colDifference * colDifference + rowDifference * rowDifference);
+
                 float speed = distance / time;
 
                 t += Time.deltaTime * speed / distance;
 
                 selectedMovingObject.transform.position = Vector2.Lerp(currentTarget, nextTarget, t);
 
-                // If the GameObject reaches the next point, move to the next segment of the line
                 if (t >= 1.0f)
                 {
                     t = 0f;
                     currentLineIndex++;
 
-                    // Loop back to the start of the line when reaching the end
                     if (currentLineIndex >= linePositions.Length - 1)
                     {
                         currentLineIndex = 0;
@@ -86,6 +80,5 @@ namespace Managers
                 }
             }
         }
-
     }
 }

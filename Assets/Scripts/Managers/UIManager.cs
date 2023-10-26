@@ -53,6 +53,7 @@ namespace Managers
                      .Where(col => col == 15))
          {
             playButton.SetActive(true);
+            _inputManager.canInput = false;
          }
 
 

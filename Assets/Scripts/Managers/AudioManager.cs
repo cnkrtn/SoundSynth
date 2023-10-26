@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -8,40 +7,39 @@ namespace Managers
 {
     public class AudioManager : MonoBehaviour
     {
-        public List<AudioClip> selectedSounds;
-        public List<AudioClip> fishSounds, whaleSounds, dolphinSounds;
-        public List<AudioSource> selectedSources;
-        public AudioSource musicSource;
-        private LineManager _lineManager;
-        private MovementManager _movementManager;
-        public AudioMixer audioMixer;
-        
+       // public List<AudioClip> selectedSounds;
+       // public List<AudioSource> selectedSources;
+        public AudioSource musicSource,audioSource;
         public AudioReverbFilter reverbFilter;
         public AudioHighPassFilter highPassFilter;
         public AudioLowPassFilter lowPassFilter;
+        private LineManager _lineManager;
+        private MovementManager _movementManager;
+        public AudioMixer audioMixer;
+        [Range(0.1f, 10.0f)] public float timeBetweenWaypoints = 1.0f;
         
-        
-        [SerializeField]public float lowPassMin = 0f; // Minimum value for the LowPass filter
-        [SerializeField]public float lowPassMax = 50f; // Maximum value for the LowPass filter
-        [SerializeField]public float highPassMin = 50f; // Minimum value for the HighPass filter
-        [SerializeField]public float highPassMax = 100f; // Maximum value for the HighPass filter
-        [SerializeField]public float reverbMin = 0f; // Minimum value for the Reverb filter
-        [SerializeField]public float reverbMax = 1f; // Maximum value for the Reverb filter
+     [SerializeField] public float lowPassMin = 0f;
+        [SerializeField] public float lowPassMax = 50f;
+        [SerializeField] public float highPassMin = 50f;
+        [SerializeField] public float highPassMax = 100f;
+        [SerializeField] public float reverbMin = 0f;
+        [SerializeField] public float reverbMax = 1f;
 
-        
-        // public string echoDelay = "EchoDelay"; 
-        // public string lowCutoffFreq = "LowCutoffFreq"; 
-        // public string highCutoffFreq = "HighCutoffFreq"; 
-        private void Start()
+        private float pitchLerpDuration = 0.5f; // Adjust this value as needed for the pitch transition speed
+
+        void Start()
         {
             _lineManager = FindObjectOfType<LineManager>();
             _movementManager = FindObjectOfType<MovementManager>();
-
         }
 
         public IEnumerator PlaySound()
         {
             var cellList = _lineManager.pointsList;
+
+            float[] rowOffsets = { -4, -2f, 0f, 2f, 4f, 5f }; // Offset values for each row
+
+            audioSource.Play(); // Start playing the audio source before the loop
 
             while (true)
             {
@@ -59,92 +57,34 @@ namespace Managers
                     }
                     else
                     {
-                        var nextCol = cellList[nextIndex].col;
                         var nextRow = cellList[nextIndex].row;
-                        var differenceCol = Mathf.Abs(nextCol - currentCol);
+
+                        // Calculate the pitch based on the offset of the current row
+                        float startPitch = Mathf.Pow(2f, rowOffsets[currentRow] / 12f);
+
+                        var differenceCol = Mathf.Abs(cellList[nextIndex].col - currentCol);
                         var differenceRow = Mathf.Abs(nextRow - currentRow);
 
-                        if (differenceCol > differenceRow)
+                        // Calculate the target pitch based on the offset of the next row
+                        float targetPitch = Mathf.Pow(2f, rowOffsets[nextRow] / 12f);
+
+                        float duration = timeBetweenWaypoints * Mathf.Sqrt(differenceCol * differenceCol + differenceRow * differenceRow);
+                        float startTime = Time.time;
+
+                        while (Time.time < startTime + duration)
                         {
-                            for (int j = 0; j < differenceCol; j++)
-                            {
-                                selectedSources[currentRow].PlayOneShot(selectedSounds[currentRow]);
-                                yield return new WaitForSeconds(1.5f);
-                            }
+                            float t = (Time.time - startTime) / duration;
+                            audioSource.pitch = Mathf.Lerp(startPitch, targetPitch, t);
+                            yield return null;
                         }
-                        else
-                        {
-                            for (int j = 0; j < differenceRow; j++)
-                            {
-                                selectedSources[currentRow].PlayOneShot(selectedSounds[currentRow]);
-                                yield return new WaitForSeconds(1.5f);
-                            }
-                        }
+
+                        audioSource.pitch = targetPitch;
                     }
-
-                 
-
-                  
                 }
             }
         }
 
 
 
-
-
-
-
-        private static void GetConsecutiveColumns(int i, List<CellScript> cellList, int column, List<CellScript> consecutiveCells)
-        {
-            // Check the cells after the current cell
-            for (var j = i + 1; j < cellList.Count; j++)
-            {
-                var nextCell = cellList[j].GetComponent<CellScript>();
-
-                // If the column of the next cell matches the current cell's column, add it to the consecutive list
-                if (nextCell.col == column)
-                {
-                    consecutiveCells.Add(nextCell);
-                }
-                else
-                {
-                    break; // Stop checking consecutive cells as soon as we find a different column
-                }
-            }
-        }
-        
-        // public void SetEchoLevel(float level)
-        // {
-        //     audioMixer.SetFloat(echoDelay, level);
-        // }
-        //
-        // public void SetLowFilterLevel(float level)
-        // {
-        //     audioMixer.SetFloat(lowCutoffFreq, level);
-        // } 
-        // public void SetHighFilterLevel(float level)
-        // {
-        // //       private float MapSliderValueToYPosition(float sliderValue)
-        // {
-        //     // Adjust the slider value to fit the desired Y-position range (0.7 to 7.3)
-        //     // Midpoint (slider value 0.5) should be mapped to 2.5
-        //     float minYPosition = 0.7f;
-        //     float maxYPosition = 6.5f;
-        //     float midYPosition = 2f;
-        //
-        //     float mappedYPosition;
-        //     if (sliderValue < 0.5f)
-        //     {
-        //         mappedYPosition = Mathf.Lerp(minYPosition, midYPosition, sliderValue * 2);
-        //     }
-        //     else
-        //     {
-        //         mappedYPosition = Mathf.Lerp(midYPosition, maxYPosition, (sliderValue - 0.5f) * 2);
-        //     }
-        //
-        //     return mappedYPosition;
-        // }
-        // // }
     }
 }

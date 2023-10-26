@@ -91,23 +91,23 @@ namespace Managers
             }
 
             // Clear the selectedSounds list
-            _audioManager.selectedSounds.Clear();
+          //  _audioManager.selectedSounds.Clear();
 
             if (_lineManager.isSaw)
             {
                 _movementManager.selectedMovingObject = _movementManager.movingObjects[0];
-                _audioManager.selectedSounds.AddRange(_audioManager
-                    .fishSounds); // Use AddRange to add all sounds at once
+              //  _audioManager.selectedSounds.AddRange(_audioManager
+               //     .fishSounds); // Use AddRange to add all sounds at once
             }
             else if (_lineManager.isSine)
             {
                 _movementManager.selectedMovingObject = _movementManager.movingObjects[1];
-                _audioManager.selectedSounds.AddRange(_audioManager.dolphinSounds);
+               // _audioManager.selectedSounds.AddRange(_audioManager.dolphinSounds);
             }
             else
             {
                 _movementManager.selectedMovingObject = _movementManager.movingObjects[2];
-                _audioManager.selectedSounds.AddRange(_audioManager.whaleSounds);
+                // _audioManager.selectedSounds.AddRange(_audioManager.whaleSounds);
             }
 
             // Now you have the selectedSounds list populated based on the boolean conditions

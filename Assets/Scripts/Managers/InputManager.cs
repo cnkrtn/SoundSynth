@@ -9,6 +9,7 @@ namespace Managers
         public CellScript startCell;// Store the reference to the clicked cell
         public bool isLineStarted = false, isLineFinished=false;
         public bool canInput = true;
+        public bool canAddPoints;
         private GridManager _gridManager;
         private AudioManager _audioManager;
         public Camera cam;
@@ -56,7 +57,7 @@ namespace Managers
         private void HandleTouchBegin()
         {
             HandleMouseClick();
-            _audioManager.selectedSources[1].PlayOneShot(_audioManager.selectedSounds[1]);
+           // _audioManager.audioSource.PlayOneShot(_audioManager.selectedSounds[1]);
         }
 
         private void HandleTouchMove()

@@ -14254,11 +14254,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -2105716293713686393, guid: 7a15e5c32a4265e439ef2e4e9d5f8528, type: 2}
-  m_audioClip: {fileID: 8300000, guid: f24c210afc5ce454cb3c0ac9bd80ec6e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e09534414ca48534ea77e23159ff0f61, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 0.8
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -23118,6 +23118,7 @@ MonoBehaviour:
   isLineStarted: 0
   isLineFinished: 0
   canInput: 1
+  canAddPoints: 0
   cam: {fileID: 1125418922}
 --- !u!1 &1463177191
 GameObject:
@@ -32201,31 +32202,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedSounds:
-  - {fileID: 8300000, guid: f24c210afc5ce454cb3c0ac9bd80ec6e, type: 3}
+  - {fileID: 8300000, guid: e09534414ca48534ea77e23159ff0f61, type: 3}
   - {fileID: 8300000, guid: c676c05b9f22ace46a8dcf2f09493789, type: 3}
   - {fileID: 8300000, guid: 8587d68cc34cd0d4ebeffba1e85377cd, type: 3}
   - {fileID: 8300000, guid: df6a3b115f4ada147b91e64ee788d1de, type: 3}
-  fishSounds:
-  - {fileID: 8300000, guid: fc51b4e4381542545bda6122a180d059, type: 3}
-  - {fileID: 8300000, guid: 77267e9f8e73faf4c8b7c539df00529a, type: 3}
-  - {fileID: 8300000, guid: 13b1e89acc3527f4196e6b53ce5b7b16, type: 3}
-  - {fileID: 8300000, guid: b3104104b9a11a742b0f82720c9a7e51, type: 3}
-  - {fileID: 8300000, guid: 75e8724290d6bd84cad769c8ba138ff7, type: 3}
-  - {fileID: 8300000, guid: b8f8f6aad952a634b9a022567b9dde98, type: 3}
-  whaleSounds:
-  - {fileID: 8300000, guid: b6c86b23f8bb90f4e978f4c4b47cf390, type: 3}
-  - {fileID: 8300000, guid: b32daf73770f4354aa93193b2afb54e2, type: 3}
-  - {fileID: 8300000, guid: a457d24f0dee6e24b85165df2078ae94, type: 3}
-  - {fileID: 8300000, guid: 1dc8a2b98a41cca4f92fcd8cfbbf3326, type: 3}
-  - {fileID: 8300000, guid: 38726c2af1440954b89a5135cff45e94, type: 3}
-  - {fileID: 8300000, guid: 6502a2ab862a3cd4f98174a6e788ba4e, type: 3}
-  dolphinSounds:
-  - {fileID: 8300000, guid: d93aa17a487940747b0efea205b28d43, type: 3}
-  - {fileID: 8300000, guid: 592328084eb525d42a4fd4a6bc8e7d42, type: 3}
-  - {fileID: 8300000, guid: 021f67ed228808c4893f2d82ad32409e, type: 3}
-  - {fileID: 8300000, guid: 1046e28e6736f81458736fc94007bee6, type: 3}
-  - {fileID: 8300000, guid: fb698cbe5ee969d49a9a22c100b6a3e3, type: 3}
-  - {fileID: 8300000, guid: 85a13f3195e12394e8805dbeb163991d, type: 3}
   selectedSources:
   - {fileID: 963194229}
   - {fileID: 963194232}
@@ -32234,10 +32214,11 @@ MonoBehaviour:
   - {fileID: 963194238}
   - {fileID: 963194237}
   musicSource: {fileID: 963194236}
-  audioMixer: {fileID: 0}
+  audioSource: {fileID: 963194232}
   reverbFilter: {fileID: 963194235}
   highPassFilter: {fileID: 963194233}
   lowPassFilter: {fileID: 963194234}
+  audioMixer: {fileID: 0}
   lowPassMin: 0
   lowPassMax: 22000
   highPassMin: 10
