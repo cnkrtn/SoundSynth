@@ -4113,7 +4113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &294950638
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6899,7 +6899,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 469188859}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 657873612}
+        m_TargetAssemblyTypeName: Managers.ButtonsManager, Assembly-CSharp
+        m_MethodName: LargeDisplayButtons
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &469188859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9297,8 +9309,8 @@ RectTransform:
   m_Father: {fileID: 1203893347}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9935,6 +9947,7 @@ MonoBehaviour:
   - {fileID: 1395451688}
   - {fileID: 144181093}
   - {fileID: 1767867845}
+  volume: 0.8
   phaseTwoManagers: {fileID: 1063763745}
   phaseTwoUI: {fileID: 294950637}
 --- !u!1 &661508254
@@ -14100,7 +14113,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -14253,10 +14266,10 @@ AudioSource:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -2105716293713686393, guid: 7a15e5c32a4265e439ef2e4e9d5f8528, type: 2}
-  m_audioClip: {fileID: 8300000, guid: e09534414ca48534ea77e23159ff0f61, type: 3}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 7a15e5c32a4265e439ef2e4e9d5f8528, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 30ec27f7c2276f0499e5c9ae245153d5, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 0.8
   Loop: 1
   Mute: 0
@@ -14347,7 +14360,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -2105716293713686393, guid: 7a15e5c32a4265e439ef2e4e9d5f8528, type: 2}
   m_audioClip: {fileID: 8300000, guid: df6a3b115f4ada147b91e64ee788d1de, type: 3}
@@ -14445,12 +14458,12 @@ AudioSource:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -2105716293713686393, guid: 7a15e5c32a4265e439ef2e4e9d5f8528, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 8587d68cc34cd0d4ebeffba1e85377cd, type: 3}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 7a15e5c32a4265e439ef2e4e9d5f8528, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 9ab6050b975aa3244bf3337c06ac6591, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
+  m_Volume: 0.6
+  m_Pitch: 0.8
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -14541,12 +14554,12 @@ AudioSource:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -2105716293713686393, guid: 7a15e5c32a4265e439ef2e4e9d5f8528, type: 2}
-  m_audioClip: {fileID: 8300000, guid: c676c05b9f22ace46a8dcf2f09493789, type: 3}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 7a15e5c32a4265e439ef2e4e9d5f8528, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 6c82c4b1f15996d48bd2ea3fab06d76a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
+  m_Volume: 0.6
+  m_Pitch: 0.8
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -14696,7 +14709,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4a5dc3a5c24ed72498621fe4a909e638, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f2fa9fd4f8c53bb489117e0869b1ab02, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -14789,7 +14802,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -14885,7 +14898,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -18198,7 +18211,7 @@ MonoBehaviour:
   - {fileID: 1145102304}
   selectedMovingObject: {fileID: 1324357664}
   startPosition: {fileID: 1161807820}
-  timeBetweenWaypoints: 1.5
+  timeBetweenWaypoints: 1
   canMove: 0
 --- !u!1 &1162278713
 GameObject:
@@ -20428,7 +20441,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -26888,7 +26901,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1721325435}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 657873612}
+        m_TargetAssemblyTypeName: Managers.ButtonsManager, Assembly-CSharp
+        m_MethodName: LargeDisplayButtons
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1721325435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27719,7 +27744,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1779805098}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 657873612}
+        m_TargetAssemblyTypeName: Managers.ButtonsManager, Assembly-CSharp
+        m_MethodName: LargeDisplayButtons
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1779805098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32201,24 +32238,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb5de17e520bea74a9325e3f1df9833e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedSounds:
-  - {fileID: 8300000, guid: e09534414ca48534ea77e23159ff0f61, type: 3}
-  - {fileID: 8300000, guid: c676c05b9f22ace46a8dcf2f09493789, type: 3}
-  - {fileID: 8300000, guid: 8587d68cc34cd0d4ebeffba1e85377cd, type: 3}
-  - {fileID: 8300000, guid: df6a3b115f4ada147b91e64ee788d1de, type: 3}
-  selectedSources:
-  - {fileID: 963194229}
-  - {fileID: 963194232}
-  - {fileID: 963194231}
-  - {fileID: 963194230}
-  - {fileID: 963194238}
-  - {fileID: 963194237}
   musicSource: {fileID: 963194236}
-  audioSource: {fileID: 963194232}
+  audioSourceFish: {fileID: 963194229}
+  audioSourceWhale: {fileID: 963194231}
+  audioSourceDolphin: {fileID: 963194232}
   reverbFilter: {fileID: 963194235}
   highPassFilter: {fileID: 963194233}
   lowPassFilter: {fileID: 963194234}
-  audioMixer: {fileID: 0}
+  audioMixer: {fileID: 24100000, guid: 7a15e5c32a4265e439ef2e4e9d5f8528, type: 2}
+  timeBetweenWaypoints: 1
   lowPassMin: 0
   lowPassMax: 22000
   highPassMin: 10
@@ -32296,7 +32324,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

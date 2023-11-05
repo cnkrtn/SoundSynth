@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
@@ -9,7 +10,8 @@ namespace Managers
     {
        // public List<AudioClip> selectedSounds;
        // public List<AudioSource> selectedSources;
-        public AudioSource musicSource,audioSource;
+       public AudioSource musicSource;
+       public AudioSource audioSourceFish,audioSourceWhale,audioSourceDolphin;
         public AudioReverbFilter reverbFilter;
         public AudioHighPassFilter highPassFilter;
         public AudioLowPassFilter lowPassFilter;
@@ -35,54 +37,50 @@ namespace Managers
 
         public IEnumerator PlaySound()
         {
+            
             var cellList = _lineManager.pointsList;
+            float[] rowOffsets = { 0, 1f, 2f, 4f, 5f, 7f }; // Offset values for each row
 
-            float[] rowOffsets = { -4, -2f, 0f, 2f, 4f, 5f }; // Offset values for each row
-
-            audioSource.Play(); // Start playing the audio source before the loop
-
-            while (true)
+            while (true) // Outer loop to control playback cycles
             {
-                for (int i = 0; i < cellList.Count; i++)
+                int currentIndex = 0; // Track the current node index
+                audioSourceFish.Play();
+                audioSourceDolphin.Play();
+                audioSourceWhale.Play();// Start playing the audio source before the loop
+
+                while (currentIndex < cellList.Count - 1) // Check if currentIndex is not at the last node
                 {
-                    int currentRow = cellList[i].row;
-                    int currentCol = cellList[i].col;
+                    int currentRow = cellList[currentIndex].row;
+                    int currentCol = cellList[currentIndex].col;
 
-                    var nextIndex = i + 1;
+                    int nextIndex = (currentIndex + 1) % cellList.Count; // Use modulo to wrap around to the beginning of the list
 
-                    if (nextIndex >= cellList.Count)
-                    {
-                        nextIndex = 0;
-                        i = -1;
-                    }
-                    else
-                    {
-                        var nextRow = cellList[nextIndex].row;
+                    int nextRow = cellList[nextIndex].row;
+                    int nextCol = cellList[nextIndex].col;
 
-                        // Calculate the pitch based on the offset of the current row
-                        float startPitch = Mathf.Pow(2f, rowOffsets[currentRow] / 12f);
+                    // Calculate the pitch based on the offset of the current row
+                    float startPitch = Mathf.Pow(2f, rowOffsets[currentRow] / 12f);
 
-                        var differenceCol = Mathf.Abs(cellList[nextIndex].col - currentCol);
-                        var differenceRow = Mathf.Abs(nextRow - currentRow);
+                    // Calculate the target pitch based on the offset of the next row
+                    float targetPitch = Mathf.Pow(2f, rowOffsets[nextRow] / 12f);
 
-                        // Calculate the target pitch based on the offset of the next row
-                        float targetPitch = Mathf.Pow(2f, rowOffsets[nextRow] / 12f);
+                    // Calculate the differences in rows and columns
+                    int rowDifference = Mathf.Abs(nextRow - currentRow);
+                    int colDifference = Mathf.Abs(nextCol - currentCol);
 
-                        float duration = timeBetweenWaypoints * Mathf.Sqrt(differenceCol * differenceCol + differenceRow * differenceRow);
-                        float startTime = Time.time;
+                    // Use the larger difference between rows and columns to determine the duration
+                    float duration = timeBetweenWaypoints * Mathf.Max(rowDifference, colDifference);
 
-                        while (Time.time < startTime + duration)
-                        {
-                            float t = (Time.time - startTime) / duration;
-                            audioSource.pitch = Mathf.Lerp(startPitch, targetPitch, t);
-                            yield return null;
-                        }
+                    audioMixer.SetFloat("pitchShifter",startPitch);
+                    yield return new WaitForSeconds(duration); // Wait for the calculated duration
 
-                        audioSource.pitch = targetPitch;
-                    }
+                    audioMixer.SetFloat("pitchShifter",targetPitch); // Change the pitch to the target value
+
+                    currentIndex++; // Move to the next node
                 }
             }
         }
+
 
 
 

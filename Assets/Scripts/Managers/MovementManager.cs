@@ -31,8 +31,13 @@ namespace Managers
 
             if (linePositions.Length > 0)
             {
-                selectedMovingObject.transform.position = linePositions[0];
-                selectedMovingObject.SetActive(true);
+                foreach (var movingObject in movingObjects)
+                {
+                  //  movingObject.transform.position = linePositions[0];
+                    movingObject.SetActive(true);
+                }
+                // selectedMovingObject.transform.position = linePositions[0];
+                // selectedMovingObject.SetActive(true);
             }
         }
 
@@ -60,13 +65,18 @@ namespace Managers
 
                 // Calculate time based on the square root formula
                 float distance = Vector2.Distance(currentTarget, nextTarget);
-                float time = timeBetweenWaypoints * Mathf.Sqrt(colDifference * colDifference + rowDifference * rowDifference);
+                float time = timeBetweenWaypoints * Mathf.Max(rowDifference, colDifference);
 
                 float speed = distance / time;
 
                 t += Time.deltaTime * speed / distance;
 
-                selectedMovingObject.transform.position = Vector2.Lerp(currentTarget, nextTarget, t);
+                foreach (var movingObject in movingObjects)
+                {
+                    movingObject.transform.position = Vector2.Lerp(currentTarget, nextTarget, t);
+
+                }
+                // selectedMovingObject.transform.position = Vector2.Lerp(currentTarget, nextTarget, t);
 
                 if (t >= 1.0f)
                 {

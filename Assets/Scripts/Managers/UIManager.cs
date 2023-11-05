@@ -69,6 +69,7 @@ namespace Managers
          _movementManager.GetWaypoints();
          _movementManager.canMove = true;
          _inputManager.canInput = false;
+         playButton.GetComponent<Button>().interactable = false;
       }
 
       public void RestartButton()
