@@ -101,7 +101,7 @@ namespace Managers
             if (_lineManager.isSaw)
             {
                _movementManager.movingObjects[0].GetComponentInChildren<SpriteRenderer>().enabled = true;
-                _audioManager.audioSourceFish.volume = volume;
+                _audioManager.audioSourceFish.volume = volume*0.5f;
 
             }
             else if (_lineManager.isSine)
@@ -127,7 +127,7 @@ namespace Managers
             switch (index)
             {
                 case 0:
-                    _audioManager.audioSourceFish.volume = volume;
+                    _audioManager.audioSourceFish.volume = volume * .5f;
                     _audioManager.audioSourceDolphin.volume = 0;
                     _audioManager.audioSourceWhale.volume = 0;
                     _movementManager.movingObjects[0].GetComponentInChildren<SpriteRenderer>().enabled = true;

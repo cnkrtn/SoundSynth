@@ -44,6 +44,7 @@ namespace Managers
             while (true) // Outer loop to control playback cycles
             {
                 int currentIndex = 0; // Track the current node index
+                musicSource.Play();
                 audioSourceFish.Play();
                 audioSourceDolphin.Play();
                 audioSourceWhale.Play();// Start playing the audio source before the loop
