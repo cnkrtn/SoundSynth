@@ -8,6 +8,7 @@ namespace Managers
 {
    public class UIManager : MonoBehaviour
    {
+      [SerializeField] private Transform playerPosition;
       private LineManager _lineManager;
       private InputManager _inputManager;
       private AudioManager _audioManager;
@@ -17,6 +18,7 @@ namespace Managers
       public GameObject restartButton, playButton;
       public Slider cutSlider, reverbSlider;
 
+      private Coroutine _playRoutine;
       private void OnEnable()
       {
          _moveBackgrounds = FindObjectOfType<MoveBackgrounds>();
@@ -62,7 +64,7 @@ namespace Managers
       public void PlayButton()
       {
 
-         StartCoroutine(_audioManager.PlaySound());
+         _playRoutine = StartCoroutine(_audioManager.PlaySound());
          _audioManager.musicSource.Stop();
          _audioManager.musicSource.Play();
          _lineManager.lineRenderer.positionCount -= 1;
@@ -74,6 +76,21 @@ namespace Managers
 
       public void RestartButton()
       {
+         foreach (var movementManagerMovingObject in _movementManager.movingObjects)
+         {
+
+            movementManagerMovingObject.transform.position = playerPosition.position;
+         }
+        
+         
+         _audioManager.audioSourceDolphin.Stop();
+         _audioManager.audioSourceFish.Stop();
+         _audioManager.audioSourceWhale.Stop();
+         if (_playRoutine != null)
+         {
+            StopCoroutine(_playRoutine);
+         }
+        
          foreach (var cellScript in _lineManager.pointsList)
          {
             cellScript.isOccupied = false;
@@ -93,6 +110,8 @@ namespace Managers
          _inputManager.canInput = true;
          _movementManager.selectedMovingObject.SetActive(false);
 
+         playButton.GetComponent<Button>().interactable = true;
+         playButton.SetActive(false);
       }
 
 

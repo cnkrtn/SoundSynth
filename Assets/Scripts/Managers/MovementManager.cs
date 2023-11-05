@@ -33,8 +33,9 @@ namespace Managers
             {
                 foreach (var movingObject in movingObjects)
                 {
-                  //  movingObject.transform.position = linePositions[0];
+
                     movingObject.SetActive(true);
+                    //movingObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
                 }
                 // selectedMovingObject.transform.position = linePositions[0];
                 // selectedMovingObject.SetActive(true);
