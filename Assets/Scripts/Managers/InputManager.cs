@@ -78,7 +78,6 @@ namespace Managers
              {
                  if (!isLineStarted)
                  {
-                     Debug.Log("OLUYOrrrrr");
                      // selectedCell = startCell; // Store the reference to the clicked cell
                      // lineManager.StartLine(selectedCell.transform.position);
                      // isLineStarted = true;
