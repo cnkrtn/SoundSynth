@@ -1,13 +1,17 @@
 using System;
+using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Managers
 {
    public class UIManager : MonoBehaviour
    {
+      [SerializeField] private GameObject finishImage1, finishImage2;
       [SerializeField] private Transform playerPosition;
       private LineManager _lineManager;
       private InputManager _inputManager;
@@ -152,6 +156,30 @@ namespace Managers
 
          // Set reverb filter value
          _audioManager.reverbFilter.reverbLevel = reverbValue;
+      }
+
+      public void Finish()
+      {
+         //TODO 
+         finishImage1.SetActive(true);
+         finishImage2.SetActive(true);
+         _lineManager.gameObject.SetActive(false);
+         for (int i = 0; i < _movementManager.movingObjects.Count; i++)
+         {
+            _movementManager.movingObjects[i].gameObject.SetActive(false);
+         }
+
+         _audioManager.audioSourceDolphin.enabled = false;
+         _audioManager.audioSourceFish.enabled = false;
+         _audioManager.audioSourceWhale.enabled = false;
+         SceneLoad();
+         transform.parent.gameObject.SetActive(false);
+      }
+
+      private async void SceneLoad()
+      {
+         await Task.Delay(4000);
+         SceneManager.LoadScene(0);
       }
    }
 }

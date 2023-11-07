@@ -11,5 +11,5 @@ public class DisplayManager : MonoBehaviour
             Display.displays[i].Activate();
         }
     }
-
+    
 }

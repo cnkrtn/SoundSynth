@@ -5,6 +5,7 @@ namespace Managers
 {
     public class MovementManager : MonoBehaviour
     {
+        public UIManager uiManager;
         public List<GameObject> movingObjects;
         public GameObject selectedMovingObject;
         [SerializeField] private Transform startPosition;
@@ -87,6 +88,7 @@ namespace Managers
                     if (currentLineIndex >= linePositions.Length - 1)
                     {
                         currentLineIndex = 0;
+                        uiManager.Finish();
                     }
                 }
             }
