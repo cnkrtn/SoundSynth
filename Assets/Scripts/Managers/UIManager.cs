@@ -19,7 +19,7 @@ namespace Managers
       private MovementManager _movementManager;
       private MoveBackgrounds _moveBackgrounds;
       private MoveCave _moveCave;
-      public GameObject restartButton, playButton;
+      public Button restartButton, playButton;
       public Slider cutSlider, reverbSlider;
 
       private Coroutine _playRoutine;
@@ -53,12 +53,12 @@ namespace Managers
       private void Update()
       {
          if (_lineManager.pointsList.Count <= 1) return;
-         restartButton.SetActive(true);
+         restartButton.interactable=true;
 
          foreach (var col in _lineManager.pointsList.Select(cellScript => cellScript.GetColumn())
                      .Where(col => col == 15))
          {
-            playButton.SetActive(true);
+            playButton.interactable=true;
             _inputManager.canInput = false;
          }
 
@@ -104,7 +104,7 @@ namespace Managers
          for (int i = 0; i < _lineManager.lineRenderer.positionCount; i++)
          {
             _lineManager.lineRenderer.SetPosition(i, Vector2.zero);
-            restartButton.SetActive(false);
+            restartButton.interactable=false;
 
          }
 
@@ -113,9 +113,8 @@ namespace Managers
          _movementManager.canMove = false;
          _inputManager.canInput = true;
          _movementManager.selectedMovingObject.SetActive(false);
-
-         playButton.GetComponent<Button>().interactable = true;
-         playButton.SetActive(false);
+         
+         playButton.interactable=false;
       }
 
 
@@ -140,12 +139,7 @@ namespace Managers
          _audioManager.lowPassFilter.cutoffFrequency = lowPassValue;
 
       }
-
       
-
-        
-      
-
 
       // Method to update the Reverb filter
       private void UpdateReverbFilter(float sliderValue)

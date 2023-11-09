@@ -99,7 +99,8 @@ namespace Managers
                  }
              }
         }
-
+        
+        int colNumber;
         private void HandleMouseHold()
         {
             if (selectedCell != null && isLineStarted )
@@ -120,7 +121,9 @@ namespace Managers
                                 // Snap to the node if it's not occupied and add new points
                                 if (!snapCellScript.isOccupied)
                                 {
-                                    // Update the last point to the snapped node position and add a new point
+                                    if (colNumber!=snapCellScript.col-1) return;
+                                    colNumber = snapCellScript.col;
+                                        // Update the last point to the snapped node position and add a new point
                                     lineManager.UpdateLineEndPoint(snapCellScript.transform.position);
                                     lineManager.pointsList.Add(snapCellScript);
                                     lineManager.AddPoint(mousePosition);
