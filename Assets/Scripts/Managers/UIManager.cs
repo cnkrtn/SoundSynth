@@ -22,6 +22,7 @@ namespace Managers
       public Button restartButton, playButton;
       public Slider cutSlider, reverbSlider;
 
+      public AudioSource arkaplan;
       private Coroutine _playRoutine;
       private void OnEnable()
       {
@@ -50,14 +51,17 @@ namespace Managers
 
       }
 
+      private bool isFinish;
       private void Update()
       {
+         if(isFinish) return;
          if (_lineManager.pointsList.Count <= 1) return;
          restartButton.interactable=true;
 
          foreach (var col in _lineManager.pointsList.Select(cellScript => cellScript.GetColumn())
                      .Where(col => col == 15))
          {
+            isFinish = true;
             playButton.interactable=true;
             _inputManager.canInput = false;
          }
@@ -67,19 +71,20 @@ namespace Managers
 
       public void PlayButton()
       {
-
          _playRoutine = StartCoroutine(_audioManager.PlaySound());
          _audioManager.musicSource.Stop();
          _audioManager.musicSource.Play();
+         arkaplan.enabled = false;
+         arkaplan.enabled = true;
          _lineManager.lineRenderer.positionCount -= 1;
          _movementManager.GetWaypoints();
          _movementManager.canMove = true;
          _inputManager.canInput = false;
-         playButton.GetComponent<Button>().interactable = false;
       }
 
       public void RestartButton()
       {
+         _inputManager.colNumber = 0;
          foreach (var movementManagerMovingObject in _movementManager.movingObjects)
          {
 
@@ -155,6 +160,13 @@ namespace Managers
       public void Finish()
       {
          //TODO 
+         SceneLoad();
+      }
+
+      private async void SceneLoad()
+      {
+         await Task.Delay(200);
+         transform.parent.gameObject.SetActive(false);
          finishImage1.SetActive(true);
          finishImage2.SetActive(true);
          _lineManager.gameObject.SetActive(false);
@@ -162,16 +174,9 @@ namespace Managers
          {
             _movementManager.movingObjects[i].gameObject.SetActive(false);
          }
-
          _audioManager.audioSourceDolphin.enabled = false;
          _audioManager.audioSourceFish.enabled = false;
          _audioManager.audioSourceWhale.enabled = false;
-         SceneLoad();
-         transform.parent.gameObject.SetActive(false);
-      }
-
-      private async void SceneLoad()
-      {
          await Task.Delay(4000);
          SceneManager.LoadScene(0);
       }

@@ -1,3 +1,5 @@
+using System;
+using Managers;
 using UnityEngine;
 
 public class CellScript : MonoBehaviour
@@ -7,6 +9,16 @@ public class CellScript : MonoBehaviour
     public Vector2 cellPosition;
     public bool isOccupied = false;
 
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        OpenNota(row);
+    }
+
+    private void OpenNota(int i)
+    { 
+        MovementManager.Instance.notes[MovementManager.Instance.noteGroup].noteList[i].gameObject.SetActive(false);
+        MovementManager.Instance.notes[MovementManager.Instance.noteGroup].noteList[i].gameObject.SetActive(true);
+    }
     public void SetGridPosition(int row, int col)
     {
         this.row = row;

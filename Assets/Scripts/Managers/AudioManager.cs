@@ -18,7 +18,7 @@ namespace Managers
         private LineManager _lineManager;
         private MovementManager _movementManager;
         public AudioMixer audioMixer;
-        [Range(0.1f, 10.0f)] public float timeBetweenWaypoints = 1.0f;
+        [Range(0.1f, 10.0f)] public float timeBetweenWaypoints = .1f;
         
      [SerializeField] public float lowPassMin = 0f;
         [SerializeField] public float lowPassMax = 50f;

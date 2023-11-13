@@ -101,6 +101,7 @@ namespace Managers
             infoText.SetActive(false);
             infoText2.SetActive(false);
             phaseTwoManagers.SetActive(true);
+            MovementManager.Instance.GetWaypoints();
             titleScreen.SetActive(false);
             for (int i = 0; i < startFishObject.Length; i++)
             {
@@ -126,6 +127,7 @@ namespace Managers
             {
                movementManager.movingObjects[0].GetComponentInChildren<SpriteRenderer>().enabled = true;
                 audioManager.audioSourceFish.volume = volume*0.5f;
+                MovementManager.Instance.noteGroup = 0;
 
             }
             else if (_lineManager.isSine)
@@ -133,11 +135,13 @@ namespace Managers
                 movementManager.movingObjects[1].GetComponentInChildren<SpriteRenderer>().enabled = true;
                 audioManager.audioSourceDolphin.volume = volume;
                 // _audioManager.selectedSounds.AddRange(_audioManager.dolphinSounds);
+                MovementManager.Instance.noteGroup = 1;
             }
             else
             {
                 movementManager.movingObjects[2].GetComponentInChildren<SpriteRenderer>().enabled = true;
                 audioManager.audioSourceWhale.volume = volume;
+                MovementManager.Instance.noteGroup = 2;
                 // _audioManager.selectedSounds.AddRange(_audioManager.whaleSounds);
             }
 

@@ -1,10 +1,22 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using _Game_.Scripts.Utilities;
+using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 
 namespace Managers
 {
-    public class MovementManager : MonoBehaviour
+    [Serializable]
+    public class Notes
     {
+        public GameObject[] noteList;
+    }
+    public class MovementManager : MonoSingleton<MovementManager>
+    {
+        [SerializeField] public Notes[] notes;
+        public int noteGroup;
         public UIManager uiManager;
         public List<GameObject> movingObjects;
         public GameObject selectedMovingObject;
@@ -12,7 +24,7 @@ namespace Managers
         private LineManager _lineManager;
         private AudioManager _audioManager;
 
-        [Range(0.1f, 10.0f)] public float timeBetweenWaypoints = 1.0f;
+        [Range(0.1f, 10.0f)] public float timeBetweenWaypoints=.15f;
         public bool canMove = false;
         private Vector3[] linePositions;
         private int currentLineIndex = 0;
@@ -22,7 +34,6 @@ namespace Managers
         {
             _lineManager = FindObjectOfType<LineManager>();
             _audioManager = FindObjectOfType<AudioManager>();
-            GetWaypoints();
         }
 
         public void GetWaypoints()
@@ -67,12 +78,12 @@ namespace Managers
 
                 // Calculate time based on the square root formula
                 float distance = Vector2.Distance(currentTarget, nextTarget);
-                float time = timeBetweenWaypoints * Mathf.Max(rowDifference, colDifference);
+                float time =.66f ;//timeBetweenWaypoints; //* Mathf.Max(rowDifference, colDifference);
 
                 float speed = distance / time;
 
                 t += Time.deltaTime * speed / distance;
-
+                
                 foreach (var movingObject in movingObjects)
                 {
                     movingObject.transform.position = Vector2.Lerp(currentTarget, nextTarget, t);
@@ -88,10 +99,12 @@ namespace Managers
                     if (currentLineIndex >= linePositions.Length - 1)
                     {
                         currentLineIndex = 0;
+                        canMove = false;
                         uiManager.Finish();
                     }
                 }
             }
         }
+        
     }
 }

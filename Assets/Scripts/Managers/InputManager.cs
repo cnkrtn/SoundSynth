@@ -100,7 +100,7 @@ namespace Managers
              }
         }
         
-        int colNumber;
+        public int colNumber;
         private void HandleMouseHold()
         {
             if (selectedCell != null && isLineStarted )
