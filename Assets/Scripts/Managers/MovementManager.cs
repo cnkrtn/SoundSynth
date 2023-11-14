@@ -27,7 +27,7 @@ namespace Managers
         [Range(0.1f, 10.0f)] public float timeBetweenWaypoints=.15f;
         public bool canMove = false;
         private Vector3[] linePositions;
-        private int currentLineIndex = 0;
+        public int currentLineIndex = 0;
         private float t = 0f;
 
         void Start()
@@ -57,13 +57,23 @@ namespace Managers
         void Update()
         {
             if (canMove)
-                Move();
+                StartCoroutine(Move());
         }
 
-        private void Move()
+        private int loopNumber;
+
+        public void Init()
+        {
+            loopNumber = 0;
+            t = 0;
+            currentLineIndex = 0;
+            canMove = false;
+        }
+        private IEnumerator Move()
         {
             if (linePositions.Length > 1)
             {
+                if (currentLineIndex >= linePositions.Length-1) yield break;
                 Vector2 currentTarget = linePositions[currentLineIndex];
                 Vector2 nextTarget = linePositions[currentLineIndex + 1];
 
@@ -98,9 +108,14 @@ namespace Managers
 
                     if (currentLineIndex >= linePositions.Length - 1)
                     {
+                        yield return new WaitForSeconds(0.66f);
                         currentLineIndex = 0;
-                        canMove = false;
-                        uiManager.Finish();
+                        loopNumber++;
+                        if (loopNumber == 3)
+                        {
+                            canMove = false;
+                            uiManager.Finish();
+                        }
                     }
                 }
             }

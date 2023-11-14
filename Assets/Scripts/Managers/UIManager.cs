@@ -51,7 +51,7 @@ namespace Managers
 
       }
 
-      private bool isFinish;
+      public bool isFinish;
       private void Update()
       {
          if(isFinish) return;
@@ -84,6 +84,7 @@ namespace Managers
 
       public void RestartButton()
       {
+         isFinish = false;
          _inputManager.colNumber = 0;
          foreach (var movementManagerMovingObject in _movementManager.movingObjects)
          {
@@ -115,10 +116,9 @@ namespace Managers
 
 
          _inputManager.isLineStarted = false;
-         _movementManager.canMove = false;
          _inputManager.canInput = true;
-         _movementManager.selectedMovingObject.SetActive(false);
-         
+         //_movementManager.selectedMovingObject.SetActive(false);
+         _movementManager.Init();
          playButton.interactable=false;
       }
 

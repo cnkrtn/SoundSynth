@@ -158,6 +158,7 @@ namespace Managers
                     audioManager.audioSourceFish.volume = volume * .5f;
                     audioManager.audioSourceDolphin.volume = 0;
                     audioManager.audioSourceWhale.volume = 0;
+                    MovementManager.Instance.noteGroup = 0;
                     movementManager.movingObjects[0].GetComponentInChildren<SpriteRenderer>().enabled = true;
                     movementManager.movingObjects[1].GetComponentInChildren<SpriteRenderer>().enabled = false;
                     movementManager.movingObjects[2].GetComponentInChildren<SpriteRenderer>().enabled = false;
@@ -166,6 +167,7 @@ namespace Managers
                     audioManager.audioSourceFish.volume = 0;
                     audioManager.audioSourceDolphin.volume = volume;
                     audioManager.audioSourceWhale.volume = 0;
+                    MovementManager.Instance.noteGroup = 1;
                     movementManager.movingObjects[0].GetComponentInChildren<SpriteRenderer>().enabled = false;
                     movementManager.movingObjects[1].GetComponentInChildren<SpriteRenderer>().enabled = true;
                     movementManager.movingObjects[2].GetComponentInChildren<SpriteRenderer>().enabled = false;
@@ -173,6 +175,7 @@ namespace Managers
                 case 2:
                     audioManager.audioSourceFish.volume = 0;
                     audioManager.audioSourceDolphin.volume = 0;
+                    MovementManager.Instance.noteGroup = 2;
                     audioManager.audioSourceWhale.volume = volume;
                     movementManager.movingObjects[0].GetComponentInChildren<SpriteRenderer>().enabled = false;
                     movementManager.movingObjects[1].GetComponentInChildren<SpriteRenderer>().enabled = false;
