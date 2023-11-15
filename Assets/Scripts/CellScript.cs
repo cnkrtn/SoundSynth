@@ -8,13 +8,9 @@ public class CellScript : MonoBehaviour
     public int col;
     public Vector2 cellPosition;
     public bool isOccupied = false;
+    
 
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        OpenNota(row);
-    }
-
-    private void OpenNota(int i)
+    public void OpenNota(int i)
     { 
         MovementManager.Instance.notes[MovementManager.Instance.noteGroup].noteList[i].gameObject.SetActive(false);
         MovementManager.Instance.notes[MovementManager.Instance.noteGroup].noteList[i].gameObject.SetActive(true);

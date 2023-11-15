@@ -21,38 +21,38 @@ namespace Managers
             // lineManager.pointsList.Add(startCell);
         }
 
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0) && canInput)
-            {
-                HandleMouseClick();
-            }
-            else if (Input.GetMouseButton(0) && canInput)
-            {
-                HandleMouseHold();
-            }
-            
-        }
-        
         // private void Update()
         // {
-        //     if (Input.touchCount > 0 && canInput)
+        //     if (Input.GetMouseButtonDown(0) && canInput)
         //     {
-        //         if (Input.GetTouch(0).phase == TouchPhase.Began)
-        //         {
-        //             HandleTouchBegin();
-        //             
-        //         }
-        //         else if (Input.GetTouch(0).phase == TouchPhase.Moved)
-        //         {
-        //             HandleTouchMove();
-        //         }
-        //         else if (Input.GetTouch(0).phase == TouchPhase.Ended)
-        //         {
-        //             HandleTouchEnd();
-        //         }
+        //         HandleMouseClick();
         //     }
+        //     else if (Input.GetMouseButton(0) && canInput)
+        //     {
+        //         HandleMouseHold();
+        //     }
+        //     
         // }
+        
+        private void Update()
+        {
+            if (Input.touchCount > 0 && canInput)
+            {
+                if (Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+                    HandleTouchBegin();
+                    
+                }
+                else if (Input.GetTouch(0).phase == TouchPhase.Moved)
+                {
+                    HandleTouchMove();
+                }
+                else if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    HandleTouchEnd();
+                }
+            }
+        }
 
         private void HandleTouchBegin()
         {

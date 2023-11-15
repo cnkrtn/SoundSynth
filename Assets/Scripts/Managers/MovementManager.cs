@@ -111,7 +111,7 @@ namespace Managers
                         yield return new WaitForSeconds(0.66f);
                         currentLineIndex = 0;
                         loopNumber++;
-                        if (loopNumber == 3)
+                        if (loopNumber == 2)
                         {
                             canMove = false;
                             uiManager.Finish();

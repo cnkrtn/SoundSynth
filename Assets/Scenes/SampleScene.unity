@@ -17492,6 +17492,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6158598962313962623, guid: 7f7bc6f681fd5dd409f447016c8bdfe3, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6165739459646314025, guid: 7f7bc6f681fd5dd409f447016c8bdfe3, type: 3}
       propertyPath: m_Name
       value: GridObject
