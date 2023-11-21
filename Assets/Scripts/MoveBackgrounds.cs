@@ -94,7 +94,7 @@ public class MoveBackgrounds : MonoBehaviour
         sliderValue = Mathf.Clamp01(sliderValue);
         
         // Use the custom mapping function for the position
-        var targetYPosition = MapSliderValueToYPosition(sliderValue);
+        var targetYPosition = MapSliderValueToYPosition(1-sliderValue);
         transform.position = new Vector3(transform.position.x, targetYPosition, transform.position.z);
     }
 

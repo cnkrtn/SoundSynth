@@ -127,9 +127,9 @@ namespace Managers
 
       private void UpdateCutFiltersHigh(float sliderValue)
       {
-         if (!(sliderValue <= .5f)) return;
-         // Calculate HighPass filter value based on slider position (0-50)
-         float highPassValue = Mathf.Lerp(1200, 10f, sliderValue / .5f);
+         if (!(sliderValue >= .5f)) return;
+         // Calculate HighPass filter value based on slider position (50-100)
+         float highPassValue = Mathf.Lerp(1200, 10f, (1f - (sliderValue - .5f) / .5f));
          // Set HighPass filter value
          _audioManager.highPassFilter.cutoffFrequency = highPassValue;
 
@@ -137,15 +137,14 @@ namespace Managers
       
       private void UpdateCutFiltersLow(float sliderValue)
       {
-         if (!(sliderValue >= .5f)) return;
-         // Calculate LowPass filter value based on slider position (50-100)
-         float lowPassValue = Mathf.Lerp(7000f, 700, (sliderValue - .5f) / .5f);
+         if (!(sliderValue <= .5f)) return;
+         // Calculate LowPass filter value based on slider position (0-50)
+         float lowPassValue = Mathf.Lerp(7000f, 700, 1f - (sliderValue / .5f));
 
          // Set LowPass filter value
          _audioManager.lowPassFilter.cutoffFrequency = lowPassValue;
-
       }
-      
+
 
       // Method to update the Reverb filter
       private void UpdateReverbFilter(float sliderValue)
