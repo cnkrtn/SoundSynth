@@ -72,8 +72,8 @@ namespace Managers
       public void PlayButton()
       {
          _playRoutine = StartCoroutine(_audioManager.PlaySound());
-         _audioManager.musicSource.Stop();
-         _audioManager.musicSource.Play();
+         // _audioManager.musicSource.Stop();
+         // _audioManager.musicSource.Play();
          arkaplan.enabled = false;
          arkaplan.enabled = true;
          _lineManager.lineRenderer.positionCount -= 1;
@@ -120,6 +120,8 @@ namespace Managers
          //_movementManager.selectedMovingObject.SetActive(false);
          _movementManager.Init();
          playButton.interactable=false;
+         arkaplan.enabled = false;
+         arkaplan.enabled = true;
       }
 
 
@@ -127,8 +129,7 @@ namespace Managers
       {
          if (!(sliderValue <= .5f)) return;
          // Calculate HighPass filter value based on slider position (0-50)
-         float highPassValue = Mathf.Lerp(1000f, 10f, sliderValue / .5f);
-
+         float highPassValue = Mathf.Lerp(1200, 10f, sliderValue / .5f);
          // Set HighPass filter value
          _audioManager.highPassFilter.cutoffFrequency = highPassValue;
 
@@ -138,7 +139,7 @@ namespace Managers
       {
          if (!(sliderValue >= .5f)) return;
          // Calculate LowPass filter value based on slider position (50-100)
-         float lowPassValue = Mathf.Lerp(22000f, 2000, (sliderValue - .5f) / .5f);
+         float lowPassValue = Mathf.Lerp(7000f, 700, (sliderValue - .5f) / .5f);
 
          // Set LowPass filter value
          _audioManager.lowPassFilter.cutoffFrequency = lowPassValue;

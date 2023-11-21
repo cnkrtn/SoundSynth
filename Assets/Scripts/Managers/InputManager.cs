@@ -20,19 +20,6 @@ namespace Managers
             // startCell = _gridManager.transform.GetChild(0).transform.GetComponent<CellScript>();
             // lineManager.pointsList.Add(startCell);
         }
-
-        // private void Update()
-        // {
-        //     if (Input.GetMouseButtonDown(0) && canInput)
-        //     {
-        //         HandleMouseClick();
-        //     }
-        //     else if (Input.GetMouseButton(0) && canInput)
-        //     {
-        //         HandleMouseHold();
-        //     }
-        //     
-        // }
         
         private void Update()
         {
@@ -52,7 +39,17 @@ namespace Managers
                     HandleTouchEnd();
                 }
             }
+            
+            if (Input.GetMouseButtonDown(0) && canInput)
+            {
+                HandleMouseClick();
+            }
+            else if (Input.GetMouseButton(0) && canInput)
+            {
+                HandleMouseHold();
+            }
         }
+        
 
         private void HandleTouchBegin()
         {
